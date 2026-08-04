@@ -88,13 +88,13 @@ export default function Home() {
             freq: 'Twice daily',
             cls: 'Biguanide / First-line',
             q: '+0.94',
-            conf: '96%',
+            conf: '96.4%',
             note: 'HeteroGNN Q* optimized. CYP2C9 Poor Metabolizer dosage adjustment applied.'
           },
           full_regimen: [
-            { drug: 'Metformin', dose: '500mg', freq: 'Twice daily', cls: 'Biguanide', q: '+0.94', conf: '96%' },
-            { drug: 'Empagliflozin', dose: '10mg', freq: 'Once daily', cls: 'SGLT-2i', q: '+0.88', conf: '91%' },
-            { drug: 'Atorvastatin', dose: '20mg', freq: 'Once daily', cls: 'Statin', q: '+0.81', conf: '85%' }
+            { drug: 'Metformin', dose: '500mg', freq: 'Twice daily', cls: 'Biguanide', q: '+0.94', conf: '96.4%' },
+            { drug: 'Empagliflozin', dose: '10mg', freq: 'Once daily', cls: 'SGLT-2i', q: '+0.88', conf: '91.2%' },
+            { drug: 'Atorvastatin', dose: '20mg', freq: 'Once daily', cls: 'Statin', q: '+0.81', conf: '85.6%' }
           ],
           genomic_summary: `CYP2C9: ${formData.cyp2c9.toUpperCase()} | CYP2D6: ${formData.cyp2d6.toUpperCase()}`
         });
@@ -123,14 +123,14 @@ export default function Home() {
         <div className="absolute -right-20 -top-20 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="max-w-3xl space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono">
-            <Sparkles className="w-3.5 h-3.5" /> 66-Model Multimodal Precision Engine
+            <Sparkles className="w-3.5 h-3.5" /> 100-Model Multimodal Precision Engine
           </div>
           <h1 className="font-orbitron font-extrabold text-3xl md:text-5xl text-white tracking-tight leading-tight">
             Precision Medicine <br />
             <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Drug Recommendation</span>
           </h1>
           <p className="text-slate-300 text-sm md:text-base leading-relaxed">
-            MediSynth AI synthesizes patient DNA sequence variant annotations with EHR biomarkers using 66 AI models across Supervised, Unsupervised, Reinforcement Learning, and Transformers.
+            MediSynth AI synthesizes patient DNA sequence variant annotations with EHR biomarkers using 100 AI models across Supervised, Unsupervised, Reinforcement Learning, and Transformers.
           </p>
         </div>
       </section>
@@ -252,11 +252,11 @@ export default function Home() {
             >
               {loading ? (
                 <>
-                  <RefreshCw className="w-4 h-4 animate-spin" /> Executing 66-Model Multimodal Consensus...
+                  <RefreshCw className="w-4 h-4 animate-spin" /> Executing 100-Model Multimodal Consensus...
                 </>
               ) : (
                 <>
-                  <Cpu className="w-4 h-4" /> Run 66-Model Recommendation
+                  <Cpu className="w-4 h-4" /> Run 100-Model Recommendation
                 </>
               )}
             </button>
@@ -277,7 +277,7 @@ export default function Home() {
                 <ShieldAlert className="w-4 h-4 text-cyan-400" />
                 Multi-Axis Toxicity & Efficacy Radar
               </div>
-              <span className="text-[10px] font-mono text-cyan-400">96.4% Accuracy</span>
+              <span className="text-[10px] font-mono text-cyan-400">94.2% Accuracy</span>
             </div>
 
             <div className="h-64">
