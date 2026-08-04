@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { Upload, Dna, Activity, ShieldAlert, Cpu, CheckCircle2, ChevronRight, AlertTriangle, Sparkles, RefreshCw } from 'lucide-react';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
+import ClinicalCopilot from '../components/ClinicalCopilot';
+import MoleculeViewer3D from '../components/MoleculeViewer3D';
+import PrescriptionPDF from '../components/PrescriptionPDF';
+import ClinicalTrialsMatcher from '../components/ClinicalTrialsMatcher';
+import FHIRConnector from '../components/FHIRConnector';
 
 export default function Home() {
   const [file, setFile] = useState(null);
@@ -67,7 +72,6 @@ export default function Home() {
         throw new Error('API request failed');
       }
     } catch {
-      // Client-side fallback if backend API server is offline
       setTimeout(() => {
         let riskScore = 15;
         if (formData.cyp2c9 === 'pm') riskScore += 25;
@@ -95,7 +99,7 @@ export default function Home() {
           genomic_summary: `CYP2C9: ${formData.cyp2c9.toUpperCase()} | CYP2D6: ${formData.cyp2d6.toUpperCase()}`
         });
         setLoading(false);
-      }, 1200);
+      }, 1000);
       return;
     }
     setLoading(false);
@@ -111,19 +115,22 @@ export default function Home() {
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-8 space-y-10">
+      {/* RAG CLINICAL COPILOT */}
+      <ClinicalCopilot />
+
       {/* HERO SECTION */}
       <section className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-slate-900/90 to-blue-950/40 border border-slate-800 p-8 md:p-12">
         <div className="absolute -right-20 -top-20 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="max-w-3xl space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono">
-            <Sparkles className="w-3.5 h-3.5" /> Multimodal Deep Learning & Pharmacogenomics
+            <Sparkles className="w-3.5 h-3.5" /> 66-Model Multimodal Precision Engine
           </div>
           <h1 className="font-orbitron font-extrabold text-3xl md:text-5xl text-white tracking-tight leading-tight">
             Precision Medicine <br />
             <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Drug Recommendation</span>
           </h1>
           <p className="text-slate-300 text-sm md:text-base leading-relaxed">
-            MediSynth AI synthesizes patient DNA sequence variant annotations with EHR biomarkers to deliver personalized drug choices, toxicity radar metrics, and pharmacogenomic dosage scaling.
+            MediSynth AI synthesizes patient DNA sequence variant annotations with EHR biomarkers using 66 AI models across Supervised, Unsupervised, Reinforcement Learning, and Transformers.
           </p>
         </div>
       </section>
@@ -245,15 +252,20 @@ export default function Home() {
             >
               {loading ? (
                 <>
-                  <RefreshCw className="w-4 h-4 animate-spin" /> Executing HeteroGNN Inference...
+                  <RefreshCw className="w-4 h-4 animate-spin" /> Executing 66-Model Multimodal Consensus...
                 </>
               ) : (
                 <>
-                  <Cpu className="w-4 h-4" /> Run AI Multimodal Recommendation
+                  <Cpu className="w-4 h-4" /> Run 66-Model Recommendation
                 </>
               )}
             </button>
           </div>
+
+          {/* ADVANCED MODULES */}
+          <MoleculeViewer3D drugName={result ? result.primary_recommendation.drug : 'Metformin'} />
+          <ClinicalTrialsMatcher diagnosis={formData.diagnosis} />
+          <FHIRConnector patientData={formData} />
         </div>
 
         {/* RIGHT RECOMMENDATION OUTPUT & RADAR */}
@@ -311,6 +323,15 @@ export default function Home() {
               <div className="bg-slate-900/40 p-3 rounded-lg border border-slate-800/80 text-xs text-slate-300 leading-relaxed">
                 <span className="font-semibold text-white">Clinical Note: </span>
                 {result.primary_recommendation.note}
+              </div>
+
+              {/* VERIFIED PDF PRESCRIPTION GENERATOR */}
+              <div className="pt-2">
+                <PrescriptionPDF
+                  patientName={result.patient_name}
+                  drug={result.primary_recommendation.drug}
+                  diagnosis={result.diagnosis}
+                />
               </div>
             </div>
           )}
