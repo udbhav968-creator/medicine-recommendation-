@@ -1,0 +1,8 @@
+##fileformat=VCFv4.2
+##fileDate=20260804
+##source=MediSynthGenomicsV4
+##reference=GRCh38
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+chr22	42128945	rs3892097	C	T	99	PASS	GENE=CYP2D6;CLNSIG=Pathogenic;PHENOTYPE=PoorMetabolizer
+chr10	94942290	rs1799853	C	T	99	PASS	GENE=CYP2C9;CLNSIG=Pathogenic;PHENOTYPE=PoorMetabolizer
+chr6	31353873	rs2395029	T	G	99	PASS	GENE=HLA-B*5701;CLNSIG=Risk_Factor;PHENOTYPE=Abacavir_Hypersensitivity

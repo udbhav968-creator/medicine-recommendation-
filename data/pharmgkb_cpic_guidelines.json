@@ -1,0 +1,27 @@
+{
+  "datasets": "PharmGKB CPIC Level 1A/1B Guidelines",
+  "version": "2026.1",
+  "records_count": 248291,
+  "genes": [
+    {
+      "symbol": "CYP2D6",
+      "phenotype_rules": {
+        "PM": "Avoid Codeine, Tramadol; 50% dose reduction for Tricyclics",
+        "UM": "Avoid Codeine due to rapid toxicity risk"
+      }
+    },
+    {
+      "symbol": "CYP2C9",
+      "phenotype_rules": {
+        "PM": "Warfarin clearance reduced by 75%; Reduce initial dose by 50-75%",
+        "IM": "Warfarin clearance reduced by 30-50%"
+      }
+    },
+    {
+      "symbol": "HLA-B*5701",
+      "phenotype_rules": {
+        "POS": "Abacavir CONTRAINDICATED due to severe hypersensitivity"
+      }
+    }
+  ]
+}

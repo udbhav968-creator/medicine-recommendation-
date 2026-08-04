@@ -1,0 +1,6 @@
+drug_id,name,smiles,target_protein,binding_affinity_kcal
+DB00331,Metformin,C(N)(N)=NC(N)=O,AMPK,-8.4
+DB00912,Empagliflozin,Cc1ccc(cc1C2C(C(C(C(O2)CO)O)O)O)Cc3ccc(cc3)Cl,SGLT-2,-9.1
+DB01076,Atorvastatin,CC(C)c1c(c(c(c1c2ccc(cc2)F)c3ccccc3)C(=O)Nc4ccccc4)CC(C(CC(=O)O)O)O,HMG-CoA,-10.2
+DB00503,Ramipril,CCOC(=O)C(CCC1=CC=CC=C1)NC(C)C(=O)N2C3CCCC3CC2C(=O)O,ACE,-8.8
+DB00381,Amlodipine,CCOC(=O)C1=C(NC(=C(C1c2ccccc2Cl)C(=O)OC)C)COCCN,L-type Ca2+,-9.4
