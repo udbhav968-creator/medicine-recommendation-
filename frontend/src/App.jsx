@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Implementation from './pages/Implementation';
+import AnalyticsPage from './pages/AnalyticsPage';
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/implementation" element={<Implementation />} />
+          <Route path="/analytics" element={<AnalyticsPage />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </main>

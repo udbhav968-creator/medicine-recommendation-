@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Dna, Activity, Terminal, ShieldCheck, Github } from 'lucide-react';
+import { Dna, Activity, Terminal, BarChart3, Github } from 'lucide-react';
 
 export default function Navbar() {
   const location = useLocation();
@@ -24,25 +24,37 @@ export default function Navbar() {
         <nav className="flex items-center gap-1 bg-slate-900/60 p-1.5 rounded-xl border border-slate-800">
           <Link
             to="/"
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               location.pathname === '/'
                 ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-400 border border-cyan-500/30'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
             }`}
           >
-            <Activity className="w-4 h-4" />
-            Live Diagnostic Hub
+            <Activity className="w-3.5 h-3.5" />
+            Diagnostic Hub
+          </Link>
+
+          <Link
+            to="/analytics"
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              location.pathname === '/analytics'
+                ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-400 border border-cyan-500/30'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+            }`}
+          >
+            <BarChart3 className="w-3.5 h-3.5" />
+            Analytics Hub
           </Link>
 
           <Link
             to="/implementation"
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               location.pathname === '/implementation'
                 ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-400 border border-cyan-500/30'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
             }`}
           >
-            <Terminal className="w-4 h-4" />
+            <Terminal className="w-3.5 h-3.5" />
             Architecture Console
           </Link>
         </nav>
@@ -53,7 +65,7 @@ export default function Navbar() {
             Systems Nominal
           </div>
           <a
-            href="https://github.com/udbhav968-creator/medicine-recommendation-system"
+            href="https://github.com/udbhav968-creator/medicine-recommendation-"
             target="_blank"
             rel="noreferrer"
             className="p-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white transition-colors"
