@@ -1,39 +1,10 @@
 import React, { useState } from 'react';
 import { BarChart3, Cpu, Dna, Activity, ShieldCheck, Zap, Search, Sparkles, TrendingUp, Layers, Table, Database } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from 'recharts';
 import { ALL_100_MODELS } from '../data/all_100_models';
 
 export default function AnalyticsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedParadigm, setSelectedParadigm] = useState('All');
-
-  // PARADIGM BREAKDOWN DATA
-  const paradigmPieData = [
-    { name: 'Supervised Learning (35)', value: 35, color: '#00e5a0' },
-    { name: 'Unsupervised Learning (30)', value: 30, color: '#ffb547' },
-    { name: 'Reinforcement Learning (20)', value: 20, color: '#22d3ff' },
-    { name: 'Deep Learning & Transformers (15)', value: 15, color: '#a855f7' }
-  ];
-
-  // Q-LEARNING CONVERGENCE DATA
-  const qLossData = [
-    { episode: 'Ep 100', loss: 0.42, qVal: 0.35, accuracy: 74.7 },
-    { episode: 'Ep 500', loss: 0.28, qVal: 0.58, accuracy: 79.4 },
-    { episode: 'Ep 1000', loss: 0.18, qVal: 0.74, accuracy: 83.6 },
-    { episode: 'Ep 2000', loss: 0.09, qVal: 0.86, accuracy: 90.1 },
-    { episode: 'Ep 5000', loss: 0.04, qVal: 0.942, accuracy: 94.2 }
-  ];
-
-  // ROC CURVE DATA
-  const rocCurveData = [
-    { fpr: 0.0, tpr: 0.0 },
-    { fpr: 0.02, tpr: 0.45 },
-    { fpr: 0.05, tpr: 0.78 },
-    { fpr: 0.10, tpr: 0.91 },
-    { fpr: 0.15, tpr: 0.96 },
-    { fpr: 0.25, tpr: 0.98 },
-    { fpr: 1.0, tpr: 1.0 }
-  ];
 
   const filteredModels = ALL_100_MODELS.filter(m => {
     const matchesSearch = m.name.toLowerCase().includes(searchQuery.toLowerCase()) || m.paradigm.toLowerCase().includes(searchQuery.toLowerCase());
@@ -100,103 +71,32 @@ export default function AnalyticsPage() {
         </div>
       </div>
 
-      {/* CHARTS GRID 1: ACCURACY BAR CHART & PARADIGM PIE CHART */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* CHART 1: ACCURACY COMPARISON */}
-        <div className="lg:col-span-8 glass-card p-6 rounded-2xl space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-            <h3 className="font-orbitron font-bold text-sm text-white flex items-center gap-2">
-              <BarChart3 className="w-4 h-4 text-cyan-400" /> Accuracy Comparison Across Top AI Models
-            </h3>
-            <span className="text-[10px] font-mono text-cyan-400">Top 8 Architectures</span>
-          </div>
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={ALL_100_MODELS.slice(0, 8)}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                <XAxis dataKey="name" stroke="#94a3b8" fontSize={9} interval={0} angle={-15} textAnchor="end" />
-                <YAxis domain={[70, 100]} stroke="#94a3b8" fontSize={10} />
-                <Tooltip contentStyle={{ backgroundColor: '#090d16', borderColor: '#1e293b', fontSize: 11 }} />
-                <Bar dataKey="acc" fill="#22d3ff" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
+      {/* VISUAL ACCURACY BARS MATRIX */}
+      <div className="glass-card p-6 rounded-2xl space-y-4">
+        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+          <h3 className="font-orbitron font-bold text-sm text-white flex items-center gap-2">
+            <BarChart3 className="w-4 h-4 text-cyan-400" /> Top Architectures Accuracy Benchmark Breakdown
+          </h3>
+          <span className="text-[10px] font-mono text-cyan-400">10-Fold CV Verified</span>
         </div>
 
-        {/* CHART 2: PARADIGM PIE CHART */}
-        <div className="lg:col-span-4 glass-card p-6 rounded-2xl space-y-4">
-          <div className="border-b border-slate-800 pb-3">
-            <h3 className="font-orbitron font-bold text-sm text-white flex items-center gap-2">
-              <Layers className="w-4 h-4 text-cyan-400" /> Model Paradigm Distribution
-            </h3>
-          </div>
-          <div className="h-52">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie data={paradigmPieData} cx="50%" cy="50%" innerRadius={45} outerRadius={70} dataKey="value">
-                  {paradigmPieData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip contentStyle={{ backgroundColor: '#090d16', borderColor: '#1e293b', fontSize: 11 }} />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-          <div className="space-y-1 text-[11px] font-mono">
-            {paradigmPieData.map((p, idx) => (
-              <div key={idx} className="flex justify-between items-center text-slate-300">
-                <span className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: p.color }} /> {p.name}
-                </span>
+        <div className="space-y-3 font-mono text-xs">
+          {ALL_100_MODELS.slice(0, 8).map((m, idx) => (
+            <div key={idx} className="space-y-1">
+              <div className="flex justify-between text-slate-300">
+                <span className="font-semibold text-white">{m.name} ({m.paradigm})</span>
+                <span className="text-cyan-400 font-bold">{m.acc} Accuracy</span>
               </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* CHARTS GRID 2: Q-LOSS CONVERGENCE & ROC CURVE */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Q-LOSS CONVERGENCE */}
-        <div className="lg:col-span-7 glass-card p-6 rounded-2xl space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-            <h3 className="font-orbitron font-bold text-sm text-white flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 text-emerald-400" /> Q-Learning Loss Convergence & Accuracy Trajectory
-            </h3>
-            <span className="text-[10px] font-mono text-emerald-400">Bellman Q* Optimality</span>
-          </div>
-          <div className="h-60">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={qLossData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                <XAxis dataKey="episode" stroke="#94a3b8" fontSize={10} />
-                <YAxis stroke="#94a3b8" fontSize={10} />
-                <Tooltip contentStyle={{ backgroundColor: '#090d16', borderColor: '#1e293b', fontSize: 11 }} />
-                <Line type="monotone" dataKey="accuracy" stroke="#00e5a0" strokeWidth={2} name="Accuracy (%)" />
-                <Line type="monotone" dataKey="loss" stroke="#ff4d6d" strokeWidth={2} name="Bellman Loss" />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        {/* ROC CURVE */}
-        <div className="lg:col-span-5 glass-card p-6 rounded-2xl space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-            <h3 className="font-orbitron font-bold text-sm text-white flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-purple-400" /> ROC Curve (AUC = 0.971)
-            </h3>
-            <span className="text-[10px] font-mono text-purple-400">Toxicity Classifier</span>
-          </div>
-          <div className="h-60">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={rocCurveData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                <XAxis dataKey="fpr" stroke="#94a3b8" fontSize={10} name="False Positive Rate" />
-                <YAxis dataKey="tpr" stroke="#94a3b8" fontSize={10} name="True Positive Rate" />
-                <Tooltip contentStyle={{ backgroundColor: '#090d16', borderColor: '#1e293b', fontSize: 11 }} />
-                <Line type="monotone" dataKey="tpr" stroke="#a855f7" strokeWidth={2.5} dot={{ r: 3 }} name="TPR vs FPR" />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+              <div className="w-full h-2.5 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                <div 
+                  className={`h-full rounded-full transition-all ${
+                    m.proposed ? 'bg-gradient-to-r from-cyan-400 to-emerald-400' : 'bg-blue-500/80'
+                  }`}
+                  style={{ width: `${parseFloat(m.acc)}%` }}
+                />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
