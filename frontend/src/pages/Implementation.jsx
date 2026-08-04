@@ -6,11 +6,14 @@ import {
 } from 'lucide-react';
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
-  LineChart, Line, PieChart, Pie, Cell 
+  LineChart, Line 
 } from 'recharts';
+import { ALL_100_MODELS } from '../data/all_100_models';
 
 export default function Implementation() {
   const [activeTab, setActiveTab] = useState('analytics');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedParadigm, setSelectedParadigm] = useState('All');
 
   // RL TRAINING Q-LOSS DATA
   const qLossData = [
@@ -21,18 +24,11 @@ export default function Implementation() {
     { episode: 'Ep 5000', loss: 0.04, qVal: 0.942, reward: 96.4 }
   ];
 
-  // ALGORITHM BENCHMARK DATA (100 MODELS ENGINE)
-  const benchmarkModels = [
-    { name: 'Multimodal RL Q-Learning', proposed: true, acc: '94.2%', prec: '92.4%', auc: '0.971', speed: 'Medium', badgeColor: 'bg-cyan-500/20 text-cyan-400 border-cyan-500/40' },
-    { name: 'XGBoost Toxicity Ensemble', proposed: false, acc: '91.4%', prec: '89.7%', auc: '0.952', speed: 'Fast', badgeColor: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40' },
-    { name: 'Deep Neural Network (3-layer)', proposed: false, acc: '90.8%', prec: '88.9%', auc: '0.948', speed: 'Medium', badgeColor: 'bg-blue-500/20 text-blue-400 border-blue-500/40' },
-    { name: 'Random Forest Classifier', proposed: false, acc: '89.1%', prec: '87.3%', auc: '0.931', speed: 'Fast', badgeColor: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40' },
-    { name: 'SVM (RBF Kernel)', proposed: false, acc: '86.4%', prec: '84.7%', auc: '0.911', speed: 'Fast', badgeColor: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40' },
-    { name: 'Unimodal RL (EHR only)', proposed: false, acc: '85.3%', prec: '83.1%', auc: '0.895', speed: 'Medium', badgeColor: 'bg-amber-500/20 text-amber-400 border-amber-500/40' },
-    { name: 'Unimodal RL (Genomics only)', proposed: false, acc: '81.7%', prec: '80.2%', auc: '0.878', speed: 'Medium', badgeColor: 'bg-amber-500/20 text-amber-400 border-amber-500/40' },
-    { name: 'Logistic Regression', proposed: false, acc: '79.2%', prec: '77.5%', auc: '0.853', speed: 'Fast', badgeColor: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40' },
-    { name: 'Rule-Based System (CPIC)', proposed: false, acc: '73.4%', prec: '70.1%', auc: '0.798', speed: 'Fast', badgeColor: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40' }
-  ];
+  const filteredModels = ALL_100_MODELS.filter(m => {
+    const matchesSearch = m.name.toLowerCase().includes(searchQuery.toLowerCase()) || m.paradigm.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesParadigm = selectedParadigm === 'All' || m.paradigm.toLowerCase().includes(selectedParadigm.toLowerCase());
+    return matchesSearch && matchesParadigm;
+  });
 
   // DRUG INTERACTION MATRIX
   const drugInteractions = [
@@ -42,7 +38,6 @@ export default function Implementation() {
     { drugA: 'Apixaban', drugB: 'Clopidogrel', status: 'Moderate Risk', risk: 'Moderate', color: 'text-amber-400 border-amber-500/30 bg-amber-500/10' }
   ];
 
-  // DOSAGE ADJUSTMENT SLIDER STATE
   const [doseSlider, setDoseSlider] = useState(100);
 
   return (
@@ -103,7 +98,7 @@ export default function Implementation() {
                   activeTab === 'analytics' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-bold' : 'text-slate-400 hover:text-white hover:bg-slate-900/50'
                 }`}
               >
-                <BarChart3 className="w-4 h-4" /> Analytics & Benchmarks
+                <BarChart3 className="w-4 h-4" /> Analytics & 100 Models
               </button>
 
               <button
@@ -140,22 +135,43 @@ export default function Implementation() {
 
         {/* CONTENT AREA */}
         <div className="lg:col-span-9 glass-card rounded-2xl p-6 min-h-[720px]">
-          {/* TAB 1: ANALYTICS & BENCHMARKS */}
+          {/* TAB 1: ANALYTICS & BENCHMARKS (ALL 100 MODELS) */}
           {activeTab === 'analytics' && (
             <div className="space-y-6 animate-fadeIn">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-3">
                 <h2 className="text-lg font-orbitron font-bold text-white flex items-center gap-2">
-                  <BarChart3 className="w-5 h-5 text-cyan-400" /> 100-Model Evaluation Suite & Benchmark Matrix
+                  <BarChart3 className="w-5 h-5 text-cyan-400" /> Exhaustive 100-Model Benchmark Suite
                 </h2>
-                <span className="text-xs font-mono text-cyan-400">10-Fold Stratified CV</span>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    placeholder="Search 100 models..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="bg-slate-900 border border-slate-800 rounded-xl px-3 py-1 text-xs text-slate-200 focus:outline-none focus:border-cyan-500"
+                  />
+                  <select
+                    value={selectedParadigm}
+                    onChange={(e) => setSelectedParadigm(e.target.value)}
+                    className="bg-slate-900 border border-slate-800 rounded-xl px-3 py-1 text-xs text-cyan-400 focus:outline-none"
+                  >
+                    <option value="All">All Paradigms ({ALL_100_MODELS.length})</option>
+                    <option value="Supervised">Supervised (35)</option>
+                    <option value="Unsupervised">Unsupervised (30)</option>
+                    <option value="Reinforcement">Reinforcement Learning (20)</option>
+                    <option value="Deep Learning">Deep Learning & Transformers (15)</option>
+                  </select>
+                </div>
               </div>
 
               {/* BENCHMARK TABLE */}
-              <div className="overflow-x-auto rounded-xl border border-slate-800">
+              <div className="overflow-x-auto rounded-xl border border-slate-800 max-h-[480px] overflow-y-auto">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-slate-900/80 text-slate-400 uppercase font-mono text-[10px] border-b border-slate-800">
+                  <thead className="bg-slate-900/90 sticky top-0 z-10 text-slate-400 uppercase font-mono text-[10px] border-b border-slate-800">
                     <tr>
+                      <th className="p-3">#</th>
                       <th className="p-3">Model / Algorithm</th>
+                      <th className="p-3">Paradigm</th>
                       <th className="p-3">Accuracy</th>
                       <th className="p-3">Precision / F1</th>
                       <th className="p-3">AUC-ROC</th>
@@ -163,8 +179,9 @@ export default function Implementation() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-800/60 text-slate-300 font-mono">
-                    {benchmarkModels.map((m, idx) => (
+                    {filteredModels.map((m, idx) => (
                       <tr key={idx} className={m.proposed ? 'bg-cyan-500/10 font-bold text-white' : 'hover:bg-slate-900/40'}>
+                        <td className="p-3 text-slate-500 text-[10px]">{idx + 1}</td>
                         <td className="p-3 flex items-center gap-2">
                           {m.name}
                           {m.proposed && (
@@ -173,6 +190,7 @@ export default function Implementation() {
                             </span>
                           )}
                         </td>
+                        <td className="p-3 text-slate-400 text-[11px]">{m.paradigm}</td>
                         <td className={`p-3 ${m.proposed ? 'text-cyan-400 font-bold' : ''}`}>{m.acc}</td>
                         <td className="p-3">{m.prec}</td>
                         <td className="p-3">{m.auc}</td>
@@ -185,20 +203,6 @@ export default function Implementation() {
                     ))}
                   </tbody>
                 </table>
-              </div>
-
-              {/* CHART COMPARISON */}
-              <div className="h-60 pt-4">
-                <div className="text-xs font-semibold text-white mb-2">Accuracy Comparison Across Top AI Models</div>
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={benchmarkModels.slice(0, 6)}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                    <XAxis dataKey="name" stroke="#94a3b8" fontSize={10} />
-                    <YAxis domain={[70, 100]} stroke="#94a3b8" fontSize={10} />
-                    <Tooltip contentStyle={{ backgroundColor: '#090d16', borderColor: '#1e293b', fontSize: 11 }} />
-                    <Bar dataKey="acc" fill="#22d3ff" radius={[4, 4, 0, 0]} />
-                  </BarChart>
-                </ResponsiveContainer>
               </div>
             </div>
           )}
