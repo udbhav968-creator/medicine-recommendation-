@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BarChart3, Cpu, Dna, Activity, ShieldCheck, Zap, Search, Sparkles, TrendingUp, Layers, Table } from 'lucide-react';
+import { BarChart3, Cpu, Dna, Activity, ShieldCheck, Zap, Search, Sparkles, TrendingUp, Layers, Table, Database } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from 'recharts';
 import { ALL_100_MODELS } from '../data/all_100_models';
 
